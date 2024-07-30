@@ -4,8 +4,15 @@ import {
   Switch,
   Grid,
   Button as MaterialButton,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  TextField,
   Snackbar,
 } from "@mui/material";
+
 import { useEditor } from "@craftjs/core";
 import lz from "lzutf8";
 import copy from "copy-to-clipboard";
@@ -16,7 +23,9 @@ export const Topbar = () => {
     enabled: state.options.enabled,
   }));
 
+  const [dialogOpen, setDialogOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState();
+  const [stateToLoad, setStateToLoad] = useState(null);
 
   return (
     <Box px={1} py={1} mt={3} mb={1} bgcolor="#cbe8e7">
@@ -48,6 +57,54 @@ export const Topbar = () => {
           >
             Copy current state
           </MaterialButton>
+          {/* Load state */}
+          <MaterialButton
+            className="load-state-btn"
+            size="small"
+            variant="outlined"
+            color="secondary"
+            onClick={() => setDialogOpen(true)}
+          >
+            Load
+          </MaterialButton>
+          <Dialog
+            open={dialogOpen}
+            onClose={() => setDialogOpen(false)}
+            fullWidth
+            maxWidth="md"
+          >
+            <DialogTitle id="alert-dialog-title">Load state</DialogTitle>
+            <DialogContent>
+              <TextField
+                multiline
+                fullWidth
+                placeholder='Paste the contents that was copied from the "Copy Current State" button'
+                size="small"
+                value={stateToLoad ?? ""} // Ensuring value is never null
+                onChange={(e) => setStateToLoad(e.target.value)}
+              />
+            </DialogContent>
+            <DialogActions>
+              <MaterialButton
+                onClick={() => setDialogOpen(false)}
+                color="primary"
+              >
+                Cancel
+              </MaterialButton>
+              <MaterialButton
+                onClick={() => {
+                  setDialogOpen(false);
+                  const json = lz.decompress(lz.decodeBase64(stateToLoad));
+                  actions.deserialize(json);
+                  setSnackbarMessage("State loaded");
+                }}
+                color="primary"
+                autoFocus
+              >
+                Load
+              </MaterialButton>
+            </DialogActions>
+          </Dialog>
           <Snackbar
             autoHideDuration={1000}
             anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
