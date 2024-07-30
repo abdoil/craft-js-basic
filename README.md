@@ -25,8 +25,8 @@ Before you begin, ensure you have the following installed:
 1. **Clone the Repository**
 
    ```bash
-   git clone https://github.com/abdoil/craft-js-v1.git
-   cd craft-js-v1
+   git clone https://github.com/abdoil/craft-js-basic.git
+   cd craft-js-basic
    ```
 
 2. **Install Dependencies**
