@@ -6,14 +6,18 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
   palette: {
-    mode: "light", // Change to 'dark' for a dark theme
     primary: {
-      main: "#1976d2", // Example color
+      main: "#556cd6",
     },
     secondary: {
-      main: "#dc004e", // Example color
+      main: "#19857b",
     },
-    // Add more colors as needed
+    error: {
+      main: "#f44336",
+    },
+    background: {
+      default: "#fff",
+    },
   },
 });
 ReactDOM.createRoot(document.getElementById("root")).render(
